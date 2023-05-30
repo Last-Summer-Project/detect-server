@@ -16,9 +16,11 @@ class DBConn:
             port=int(env.get("DB_PORT")),
             database=env.get("DB_DATABASE")
         )
+        self.limit = int(env.get("DB_LIMIT", "16"))
         logging.info("DB Client is up")
 
-    def get_non_detected(self, limit: int = 16):
+    def get_non_detected(self, limit: Optional[int] = None):
+        limit = self.limit if limit is None else limit
         cur = self.conn.cursor()
         cur.execute("SELECT"
                     "  l.id as id,"

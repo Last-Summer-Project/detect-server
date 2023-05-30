@@ -26,6 +26,7 @@ def main():
     setup_log()
 
     db = DBConn()
+
     s3 = S3Client()
     onnx = OnnxInference()
 
