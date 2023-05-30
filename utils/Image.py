@@ -18,4 +18,6 @@ def letterbox_image(image: Image, size: Tuple[int, int]) -> Image:
 
 
 def image_to_numpy(input_image: Image) -> np.ndarray:
-    return np.array(letterbox_image(input_image, (500, 500))).astype(np.float32).transpose((-1, 0, 1))
+    return (np.array(letterbox_image(input_image, (500, 500)))  # letter boxing
+            .astype(np.float32)  # convert to float
+            .transpose((-1, 0, 1)))  # transpose to correct input
