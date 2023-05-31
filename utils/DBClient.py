@@ -23,17 +23,17 @@ class DBConn:
         limit = self.limit if limit is None else limit
         cur = self.conn.cursor()
         cur.execute("SELECT"
-                    "  l.id as id,"
-                    "  i.url as url"
+                    "  l.id AS id,"
+                    "  i.url AS url"
                     " FROM"
                     "  device_log AS l"
                     "   INNER JOIN image AS i"
-                    "    on l.image_id = i.id"
-                    "   INNER JOIN detect as d"
-                    "    on l.id = d.id"
+                    "    ON l.image_id = i.id"
+                    "   INNER JOIN detect AS d"
+                    "    ON l.id = d.id"
                     " WHERE"
                     "  d.status = 'not_started'"
-                    " ORDER BY l.date_created asc"
+                    " ORDER BY l.date_created ASC"
                     " LIMIT ?", (limit,))
         if cur is None:
             return []
