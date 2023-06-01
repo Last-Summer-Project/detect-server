@@ -1,4 +1,5 @@
 onnxruntime-gpu
+onnxruntime
 onnx
 pillow
 numpy
