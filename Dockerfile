@@ -1,5 +1,7 @@
 FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04
 
+WORKDIR /project
+
 COPY . .
 
 RUN apt-get update && \
