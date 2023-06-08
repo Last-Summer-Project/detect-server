@@ -6,6 +6,8 @@ jobs:
   docker:
     name: Docker image test
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     steps:
     - uses: actions/checkout@v3
 
