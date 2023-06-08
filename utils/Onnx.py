@@ -1,21 +1,19 @@
-import onnx
+import os
 import onnxruntime
 import numpy as np
 from PIL import Image
-from dotenv import dotenv_values
 
 from utils.Image import image_to_numpy
 
 
 class OnnxInference:
     def __init__(self):
-        env: dict = dotenv_values()
         providers = ['CPUExecutionProvider']
-        if env.get("ONNX_CUDA", False):
+        if os.getenv("ONNX_CUDA", False):
             providers.insert(0, 'CUDAExecutionProvider')
 
         # Load onnx inference session
-        self.session = onnxruntime.InferenceSession(env.get("ONNX_MODEL"),
+        self.session = onnxruntime.InferenceSession(os.getenv("ONNX_MODEL"),
                                                     providers=providers)
         self.input_name = self.session.get_inputs()[0].name
         self.output_name = self.session.get_outputs()[0].name

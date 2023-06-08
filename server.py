@@ -4,6 +4,9 @@ from utils.S3Client import S3Client
 from time import sleep
 import logging
 import sys
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def setup_log():
