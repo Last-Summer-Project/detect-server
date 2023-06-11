@@ -1,4 +1,8 @@
+import base64
 import os
+import re
+from io import BytesIO
+
 import onnxruntime
 import numpy as np
 from PIL import Image
@@ -32,3 +36,8 @@ class OnnxInference:
         if isinstance(prediction, np.int64):
             return [prediction]
         return prediction
+
+    def predict_base64(self, data: list[str]):
+        image_data = map(lambda x: re.sub('^data:image/.+;base64,', '', x), data)
+        im = map(lambda x: Image.open(BytesIO(base64.b64decode(x))), image_data)
+        return self.predict_image(list(im))
