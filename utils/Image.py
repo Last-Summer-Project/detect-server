@@ -17,7 +17,15 @@ def letterbox_image(image: Image, size: Tuple[int, int]) -> Image:
     return new_image
 
 
+def preprocess(image: Image):
+    img = np.array(letterbox_image(image, (500, 500))).astype(np.float32)
+    # normalize to 0-1
+    img /= 255.
+    # normalize by mean + std
+    img = (img - 0.48232) / np.array(0.2305)
+    img = img.transpose((2, 0, 1))
+    return img
+
+
 def image_to_numpy(input_image: Image) -> np.ndarray:
-    return (np.array(letterbox_image(input_image, (500, 500)))  # letter boxing
-            .astype(np.float32)  # convert to float
-            .transpose((-1, 0, 1)))  # transpose to correct input
+    return preprocess(input_image)
