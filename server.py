@@ -54,6 +54,5 @@ def main():
         sleep(sec)
 
 
-
 if __name__ == "__main__":
     sys.exit(main())
