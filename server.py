@@ -40,6 +40,8 @@ def main():
         if len(process) == 0:
             sec = 30
             logging.debug(f"Increase sleeping time to {sec} seconds as there wasn't any log.")
+            sleep(sec)
+            continue
 
         process = [(log_id, s3.download_image(url)) for (log_id, url) in process]
         pred, res = onnx.predict_image([img for (_, img) in process])
