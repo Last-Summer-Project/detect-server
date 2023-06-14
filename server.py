@@ -37,6 +37,10 @@ def main():
     while True:
         sec = 1
         process = db.get_non_detected()
+        if len(process) == 0:
+            sec = 30
+            logging.debug(f"Increase sleeping time to {sec} seconds as there wasn't any log.")
+
         process = [(log_id, s3.download_image(url)) for (log_id, url) in process]
         pred, res = onnx.predict_image([img for (_, img) in process])
         process = [(log_id, pred, result) for ((log_id, _), pred, result) in zip(process, pred, res)]
@@ -44,11 +48,9 @@ def main():
             pred = str(pred)
             logging.debug(f"log_id '{log_id}' result was '{pred}' ({result})")
             db.update_detected(log_id, 'done', pred)
-        if len(process) == 0:
-            sec = 30
-            logging.debug(f"Increase sleeping time to {sec} seconds as there wasn't any log.")
         logging.info(f"Sleeping {sec} sec...")
         sleep(sec)
+
 
 
 if __name__ == "__main__":
