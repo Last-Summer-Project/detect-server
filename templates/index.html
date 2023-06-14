@@ -127,7 +127,7 @@
     <div>
         <button class="download" id="predict">Predict</button>
     </div>
-    <h3> Result : <span id="result">null</span></h3>
+    <h3> Result : <code id="result">null</code></h3>
 </div>
 <script>
     const dropArea = document.querySelector('.drag-area');
@@ -206,7 +206,7 @@
             },
             body: JSON.stringify({"imageBase64": fileURL})
         }).then((res) => res.json()).then((data) => {
-            document.getElementById("result").innerText = JSON.stringify(data)
+            document.getElementById("result").innerText = JSON.stringify(data, null, "\t")
         })
     }
 </script>

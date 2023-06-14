@@ -38,12 +38,12 @@ def main():
         sec = 1
         process = db.get_non_detected()
         process = [(log_id, s3.download_image(url)) for (log_id, url) in process]
-        pred = onnx.predict_image([img for (_, img) in process])
-        process = [(log_id, result) for ((log_id, _), result) in zip(process, pred)]
-        for log_id, result in process:
-            result = str(result)
-            logging.debug(f"log_id '{log_id}' result was '{result}'")
-            db.update_detected(log_id, 'done', result)
+        pred, res = onnx.predict_image([img for (_, img) in process])
+        process = [(log_id, pred, result) for ((log_id, _), pred, result) in zip(process, pred, res)]
+        for log_id, pred, result in process:
+            pred = str(pred)
+            logging.debug(f"log_id '{log_id}' result was '{pred}' ({result})")
+            db.update_detected(log_id, 'done', pred)
         if len(process) == 0:
             sec = 30
             logging.debug(f"Increase sleeping time to {sec} seconds as there wasn't any log.")

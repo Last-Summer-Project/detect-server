@@ -31,11 +31,12 @@ class OnnxInference:
     # predict by array
     def predict_array(self, data: np.ndarray):
         result = self.session.run([self.output_name], {self.input_name: data})
-        prediction = np.argmax(np.array(result).squeeze(), -1)
+        result = np.array(result).squeeze()
+        prediction = np.argmax(result, -1)
         # wrapping up if it's only 1
         if isinstance(prediction, np.int64):
-            return [prediction]
-        return prediction
+            return [prediction], result
+        return prediction, result
 
     def predict_base64(self, data: list[str]):
         image_data = map(lambda x: re.sub('^data:image/.+;base64,', '', x), data)

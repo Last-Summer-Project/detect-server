@@ -1,4 +1,3 @@
-import logging
 from flask import Flask, request, jsonify, render_template, abort
 
 from utils.Onnx import OnnxInference
@@ -21,8 +20,9 @@ def predict():
     data = request.json
     b64 = data.get('imageBase64')
 
-    result = onnx.predict_base64([b64])
-    return jsonify({'status': "DONE", 'result': str(result[0])})
+    pred, result = onnx.predict_base64([b64])
+    result = list(map(lambda x: x.tolist(), result))
+    return jsonify({'status': "DONE", 'result': str(pred[0]), 'raw_result': result})
 
 
 if __name__ == '__main__':
